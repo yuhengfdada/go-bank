@@ -9,6 +9,8 @@ start:
 	docker start postgres14
 stop:
 	docker stop postgres14
+psql:
+	docker exec -it postgres14 psql -U root -d simple_bank
 
 migrateup:
 	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up

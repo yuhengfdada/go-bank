@@ -8,7 +8,7 @@ import (
 	"github.com/yuhengfdada/go-bank/util"
 )
 
-func getNewAccount() *Account {
+func getRandomAccount() *Account {
 	return &Account{
 		Owner:    util.GetRandomString(10),
 		Balance:  util.GetRandomInt64(100, 1000),
@@ -16,8 +16,8 @@ func getNewAccount() *Account {
 	}
 }
 
-func TestCreateAccount(t *testing.T) {
-	a := getNewAccount()
+func createRandomAccount(t *testing.T) Account {
+	a := getRandomAccount()
 	acc, err := testQueries.CreateAccount(context.Background(), CreateAccountParams{
 		Owner:    a.Owner,
 		Balance:  a.Balance,
@@ -31,4 +31,9 @@ func TestCreateAccount(t *testing.T) {
 	require.Equal(t, a.Balance, acc.Balance)
 	require.Equal(t, a.Currency, acc.Currency)
 	require.NotEmpty(t, acc.CreatedAt)
+	return acc
+}
+
+func TestCreateAccount(t *testing.T) {
+	createRandomAccount(t)
 }
