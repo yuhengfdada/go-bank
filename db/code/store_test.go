@@ -14,6 +14,7 @@ func TestTransferTx(t *testing.T) {
 	amount := int64(10)
 	fmt.Printf("acc1: %v, acc2: %v\n", acc1.Balance, acc2.Balance)
 	errchan := make(chan error)
+	reschan := make(chan TransferTxResult)
 	for i := 0; i < 10; i++ {
 		go func() {
 			result, err := testStore.TransferTx(context.Background(), TransferTxParams{
@@ -21,14 +22,16 @@ func TestTransferTx(t *testing.T) {
 				ToAccountID:   acc2.ID,
 				Amount:        amount,
 			})
-			require.Nil(t, err)
-			fmt.Printf("acc1: %v, acc2: %v\n", result.FromAccount.Balance, result.ToAccount.Balance)
+			// fmt.Printf("acc1: %v, acc2: %v\n", result.FromAccount.Balance, result.ToAccount.Balance)
 			errchan <- err
+			reschan <- result
 		}()
 	}
 	for i := 0; i < 5; i++ {
-		<-errchan
+		err := <-errchan
+		require.Nil(t, err)
+		result := <-reschan
+		require.Equal(t, (result.FromAccount.Balance-acc1.Balance)%amount, int64(0))
+		require.Equal(t, (result.ToAccount.Balance-acc2.Balance)%amount, int64(0))
 	}
-	//require.Equal(t, acc1.Balance-amount, result.FromAccount.Balance)
-	//require.Equal(t, acc2.Balance+amount, result.ToAccount.Balance)
 }
