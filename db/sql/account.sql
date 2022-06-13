@@ -19,11 +19,14 @@ for update;
 
 -- name: ListAccounts :many
 select * from accounts
-order by id;
+order by id
+limit $1
+offset $2;
 
 -- name: DeleteAccount :exec
 DELETE FROM accounts
 WHERE id = $1;
+
 
 -- name: UpdateAccount :one
 update accounts
