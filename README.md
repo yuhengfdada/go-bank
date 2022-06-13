@@ -9,4 +9,5 @@ Aim to cover:
   - Generate SQL Go code using sqlc 
   - CRUD operations & Unit tests
   - Transactions
+- CI Using GitHub Actions
 - ...
