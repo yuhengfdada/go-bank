@@ -17,7 +17,9 @@ func getRandomAccount() *Account {
 }
 
 func createRandomAccount(t *testing.T) Account {
+	owner := createRandomUser(t)
 	a := getRandomAccount()
+	a.Owner = owner.Username
 	acc, err := testQueries.CreateAccount(context.Background(), CreateAccountParams{
 		Owner:    a.Owner,
 		Balance:  a.Balance,
