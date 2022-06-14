@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/yuhengfdada/go-bank/api"
-	db "github.com/yuhengfdada/go-bank/db/code"
+	"github.com/yuhengfdada/go-bank/db"
 )
 
 const (
@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	store := db.NewStore(conn)
+	store := db.NewSQLStore(conn)
 	server := api.NewServer(store)
 	server.Start()
 }

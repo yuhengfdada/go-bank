@@ -2,15 +2,15 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	db "github.com/yuhengfdada/go-bank/db/code"
+	"github.com/yuhengfdada/go-bank/db"
 )
 
 type Server struct {
-	store  *db.Store
+	store  db.Store
 	router *gin.Engine
 }
 
-func NewServer(store *db.Store) *Server {
+func NewServer(store db.Store) *Server {
 	router := gin.Default()
 	server := Server{
 		store:  store,
