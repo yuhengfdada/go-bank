@@ -64,7 +64,8 @@ func TestCreateUserAPI(t *testing.T) {
 			Times(1).
 			Return(*usr, nil)
 
-		server := NewServer(store)
+		config := getTestAPIConfig()
+		server := NewServer(store, config)
 		recorder := httptest.NewRecorder()
 
 		req := createUserRequest{

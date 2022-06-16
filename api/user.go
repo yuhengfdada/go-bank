@@ -78,8 +78,9 @@ type userLoginRequest struct {
 }
 
 type userLoginResponse struct {
-	User  userResponse `json:"user"`
-	token string       `json:"token"`
+	User           userResponse `json:"user"`
+	Token          string       `json:"token"`
+	TokenExpiresAt time.Time    `json:"token_expires_at"`
 }
 
 func (server *Server) loginUser(c *gin.Context) {
@@ -98,5 +99,15 @@ func (server *Server) loginUser(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
-	server.tokenGenerator.GenerateToken()
+	tokenRep, tokenPayload, err := server.tokenGenerator.GenerateToken(req.Password, server.config.AccessTokenDuration)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	rep := userLoginResponse{
+		User:           newUserResponse(usr),
+		Token:          tokenRep,
+		TokenExpiresAt: tokenPayload.ExpiredAt,
+	}
+	c.JSON(http.StatusOK, rep)
 }

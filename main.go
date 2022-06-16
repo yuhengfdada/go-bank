@@ -7,19 +7,21 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/yuhengfdada/go-bank/api"
 	"github.com/yuhengfdada/go-bank/db"
-)
-
-const (
-	dbDriver      = "postgres"
-	dbCredentials = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
+	"github.com/yuhengfdada/go-bank/util"
 )
 
 func main() {
-	conn, err := sql.Open(dbDriver, dbCredentials)
+	config, err := util.ReadConfigFromPath(".")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBCredentials)
 	if err != nil {
 		log.Fatal(err)
 	}
 	store := db.NewSQLStore(conn)
-	server := api.NewServer(store)
-	server.Start()
+	server := api.NewServer(store, config)
+	server.Start(config.ServerAddr)
 }

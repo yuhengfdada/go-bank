@@ -26,7 +26,7 @@ func NewPasetoTokenGenerator(symmetricKey string) (TokenGenerator, error) {
 	return gen, nil
 }
 
-// CreateToken creates a new token for a specific username and duration
+// GenerateToken creates a new token for a specific username and duration
 func (gen *PasetoTokenGenerator) GenerateToken(username string, duration time.Duration) (string, *Payload, error) {
 	payload, err := NewPayload(username, duration)
 	if err != nil {
@@ -37,7 +37,7 @@ func (gen *PasetoTokenGenerator) GenerateToken(username string, duration time.Du
 	return token, payload, err
 }
 
-// VerifyToken checks if the token is valid or not
+// ValidateToken checks if the token is valid or not
 func (gen *PasetoTokenGenerator) ValidateToken(token string) (*Payload, error) {
 	payload := &Payload{}
 

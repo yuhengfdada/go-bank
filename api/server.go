@@ -14,18 +14,20 @@ import (
 type Server struct {
 	store          db.Store
 	router         *gin.Engine
+	config         *util.Config
 	tokenGenerator token.TokenGenerator
 }
 
-func NewServer(store db.Store) *Server {
+func NewServer(store db.Store, config *util.Config) *Server {
 	router := gin.Default()
-	tokenGen, err := token.NewPasetoTokenGenerator(util.GetRandomString(32))
+	tokenGen, err := token.NewPasetoTokenGenerator(config.TokenSymmetricKey)
 	if err != nil {
 		log.Fatal(err)
 	}
 	server := Server{
 		store:          store,
 		router:         router,
+		config:         config,
 		tokenGenerator: tokenGen,
 	}
 	v, ok := binding.Validator.Engine().(*validator.Validate)
@@ -42,8 +44,8 @@ func NewServer(store db.Store) *Server {
 	return &server
 }
 
-func (server *Server) Start() {
-	server.router.Run()
+func (server *Server) Start(addr string) {
+	server.router.Run(addr)
 }
 
 func errorResponse(err error) gin.H {
