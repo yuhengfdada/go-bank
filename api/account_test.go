@@ -37,7 +37,8 @@ func TestGetAccountAPI(t *testing.T) {
 			Times(1).
 			Return(*acc, nil)
 
-		server := NewServer(store)
+		config := getTestAPIConfig()
+		server := NewServer(store, config)
 		recorder := httptest.NewRecorder()
 
 		url := fmt.Sprintf("/accounts/%d", acc.ID)
@@ -55,7 +56,8 @@ func TestGetAccountAPI(t *testing.T) {
 			GetAccount(gomock.Any(), gomock.Any()).
 			Times(0)
 
-		server := NewServer(store)
+		config := getTestAPIConfig()
+		server := NewServer(store, config)
 		recorder := httptest.NewRecorder()
 
 		url := fmt.Sprintf("/accounts/0")

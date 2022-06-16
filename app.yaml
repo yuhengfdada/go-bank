@@ -1,0 +1,5 @@
+db_driver: "postgres"
+db_credentials: "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
+server_addr: "localhost:8080"
+token_symmetric_key: "12345678901234567890123456789012"
+access_token_duration: 15m
