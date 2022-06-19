@@ -10,6 +10,7 @@ import (
 	"github.com/yuhengfdada/go-bank/util"
 )
 
+// swagger:parameters createUser
 type createUserRequest struct {
 	Username string `json:"username" binding:"required,alphanum"`
 	Password string `json:"password" binding:"required,min=6"`
@@ -35,6 +36,8 @@ func newUserResponse(user db.User) userResponse {
 	}
 }
 
+// swagger:route POST /user users createUser
+// Create a new user
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-playground/validator/v10"
 	"github.com/yuhengfdada/go-bank/db"
 	"github.com/yuhengfdada/go-bank/token"
@@ -41,6 +42,12 @@ func NewServer(store db.Store, config *util.Config) *Server {
 	server.router.POST("/user", server.createUser)
 	server.router.POST("/login", server.loginUser)
 
+	// set up the server to look for the swagger file
+	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
+	redocHandler := middleware.Redoc(opts, nil)
+	server.router.GET("/docs", gin.WrapH(redocHandler))
+	server.router.StaticFile("/swagger.yaml", "./swagger.yaml")
+	server.router.StaticFile("/favicon.ico", "./static/favicon.ico")
 	return &server
 }
 

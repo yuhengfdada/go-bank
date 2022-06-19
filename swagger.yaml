@@ -1,0 +1,67 @@
+basePath: /
+consumes:
+- application/json
+info:
+  description: Documentation for SimpleBank API
+  title: SimpleBank API
+  version: 1.0.0
+paths:
+  /accounts:
+    get:
+      description: List all accounts
+      operationId: listAccount
+      parameters:
+      - format: int32
+        in: path
+        name: PageID
+        required: true
+        type: integer
+      - format: int32
+        in: path
+        name: PageSize
+        required: true
+        type: integer
+      tags:
+      - accounts
+    post:
+      description: Create a new account
+      operationId: createAccount
+      parameters:
+      - in: query
+        name: owner
+        type: string
+        x-go-name: Owner
+      - in: query
+        name: currency
+        type: string
+        x-go-name: Currency
+      tags:
+      - accounts
+  /user:
+    post:
+      description: Create a new user
+      operationId: createUser
+      parameters:
+      - in: query
+        name: username
+        type: string
+        x-go-name: Username
+      - in: query
+        name: password
+        type: string
+        x-go-name: Password
+      - in: query
+        name: full_name
+        type: string
+        x-go-name: FullName
+      - in: query
+        name: email
+        type: string
+        x-go-name: Email
+      tags:
+      - users
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"

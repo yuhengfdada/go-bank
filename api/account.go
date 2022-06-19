@@ -7,11 +7,14 @@ import (
 	"github.com/yuhengfdada/go-bank/db"
 )
 
+// swagger:parameters createAccount
 type CreateAccountReq struct {
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency string `json:"currency" binding:"required,validCurrency"`
 }
 
+// swagger:route POST /accounts accounts createAccount
+// Create a new account
 func (server *Server) createAccount(c *gin.Context) {
 	req := CreateAccountReq{}
 	err := c.BindJSON(&req) // 相当于decode JSON
@@ -26,6 +29,7 @@ func (server *Server) createAccount(c *gin.Context) {
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(http.StatusOK, acc)
 }
@@ -49,11 +53,16 @@ func (server *Server) getAccount(c *gin.Context) {
 	c.JSON(http.StatusOK, acc)
 }
 
+// swagger:parameters listAccount
 type ListAccountReq struct {
-	PageID   int32 `form:"page_id" binding:"required,min=1"`
+	// in: path
+	PageID int32 `form:"page_id" binding:"required,min=1"`
+	// in: path
 	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
 }
 
+// swagger:route GET /accounts accounts listAccount
+// List all accounts
 func (server *Server) listAccount(c *gin.Context) {
 	var req ListAccountReq
 	err := c.ShouldBindQuery(&req)
