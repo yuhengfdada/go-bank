@@ -20,6 +20,7 @@ func main() {
 	conn, err := sql.Open(config.DBDriver, config.DBCredentials)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 	store := db.NewSQLStore(conn)
 	server := api.NewServer(store, config)

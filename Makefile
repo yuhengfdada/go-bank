@@ -32,3 +32,6 @@ test:
 	go test -v ./...
 server:
 	go run main.go
+
+swagger:
+	swagger generate spec -o ./swagger.yaml
