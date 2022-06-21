@@ -12,6 +12,7 @@ import (
 
 func main() {
 	config, err := util.ReadConfigFromPath(".")
+
 	if err != nil {
 		log.Fatal(err)
 		return

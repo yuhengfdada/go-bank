@@ -18,6 +18,9 @@ func ReadConfigFromPath(path string) (*Config, error) {
 	viper.SetConfigName("app")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(path)
+
+	viper.AutomaticEnv() // newly set environment variables will override the ones set in the app.yaml file.
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		return nil, err

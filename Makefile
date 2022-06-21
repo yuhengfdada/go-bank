@@ -35,3 +35,10 @@ server:
 
 swagger:
 	swagger generate spec -o ./swagger.yaml
+
+dockerb:
+	docker build -t simple_bank .
+dockerrmc:
+	docker rm simplebank
+dockerrmi:
+	docker image rm simple_bank

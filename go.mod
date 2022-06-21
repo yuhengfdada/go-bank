@@ -1,20 +1,19 @@
 module github.com/yuhengfdada/go-bank
 
-go 1.17
+go 1.18
 
 require (
-	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb
+	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-openapi/runtime v0.24.1
-	github.com/go-playground/validator/v10 v10.10.0
+	github.com/go-playground/validator/v10 v10.11.0
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
-	github.com/gwatts/gin-adapter v1.0.0
 	github.com/lib/pq v1.10.6
 	github.com/o1egl/paseto v1.0.0
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.7.2
-	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
 )
 
 require (
