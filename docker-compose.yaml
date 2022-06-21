@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: simple_bank
+    ports:
+      - "5432:5432"
+  api:
+    build: .
+    environment:
+      DB_CREDENTIALS: "postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: ["./wait-for.sh", "postgres:5432", "--", "./start.sh"]
